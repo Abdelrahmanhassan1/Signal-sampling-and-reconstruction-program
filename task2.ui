@@ -1281,7 +1281,7 @@ ColorButton::disabled {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -1428,7 +1428,7 @@ ColorButton::disabled {
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
                  <widget class="QLabel" name="label_3">
@@ -1489,7 +1489,7 @@ ColorButton::disabled {
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_12">
             <item>
              <widget class="QSplitter" name="splitter_3">
@@ -1669,21 +1669,7 @@ ColorButton::disabled {
                  </font>
                 </property>
                 <property name="text">
-                 <string>Draw</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="add_to_graph">
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Add to graph </string>
+                 <string>Add To Graph</string>
                 </property>
                </widget>
               </item>
@@ -1716,7 +1702,7 @@ ColorButton::disabled {
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="ShowButton">
+               <widget class="QPushButton" name="reset_button">
                 <property name="font">
                  <font>
                   <pointsize>10</pointsize>
@@ -1750,7 +1736,7 @@ ColorButton::disabled {
      <x>0</x>
      <y>0</y>
      <width>1231</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

@@ -24,8 +24,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.full_signal = np.zeros(5000)
         self.first_col = []
         self.second_col = []
-        self.flag = False
-        self.flag2 = False
+        self.saved_signals_flag = False
+        self.composer_flag = False
 
         self.sine_wave_figure = Figure()
         self.sine_wave_canvas = FigureCanvas(self.sine_wave_figure)
@@ -42,13 +42,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.magslider.valueChanged.connect(self.read_slider_values)
 
         # Buttons:
-        self.ui.ShowButton.clicked.connect(self.show_initialized_graph)
+        self.ui.reset_button.clicked.connect(self.show_initialized_graph)
         self.ui.draw_button.clicked.connect(self.draw_sine_wave)
         # self.ui.add_to_combo_box.clicked.connect(self.add_signal_to_combo_box)
         # self.ui.delete_from_combo_box.clicked.connect(self.delete_signal_from_combo_box)
         self.ui.delete_from_graph.clicked.connect(self.delete_signal_from_graph)
         self.ui.move_to_main.clicked.connect(self.move_to_main_graph)
-        # self.ui.add_to_graph.clicked.connect(self.add_signal_to_graph)
+
 
 
         #############################################
@@ -96,21 +96,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.mag_label.setText(str(self.magnitude))
         self.ui.phase_label.setText(str(self.phase))
 
-        # print(f"{self.phase} {self.magnitude} {self.frequency} {self.range}")
-
     def draw_sine_wave(self):
         try:
             self.read_slider_values()
             self.sine_wave = self.create_sinusoidal(self.magnitude, self.frequency, self.phase)
             self.full_signal += self.sine_wave
-            axes = self.sine_wave_figure.gca()
-            axes.cla()
-            axes.grid(True)
-            axes.set_facecolor((1, 1, 1))
-            axes.plot(self.time_range, self.full_signal)
-            axes.set_xlabel('Time')
-            axes.set_ylabel('Magnitude')
-            axes.set_title('Sinusoidal Signal')
+            self.show_empty_sine_graph()
+            self.axes.plot(self.time_range, self.full_signal)
+            self.axes.set_xlabel('Time')
+            self.axes.set_ylabel('Magnitude')
+            self.axes.set_title('Sinusoidal Signal')
             self.sine_wave_canvas.draw()
             self.sine_wave_canvas.flush_events()
             self.add_signal_to_combo_box()
@@ -121,10 +116,10 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             signal_name = f"sinusoidal wave: {self.magnitude}Amp,{self.frequency}HZ,and {self.phase}˚ phase"
             check_exist_index = self.ui.added_signals_box.findText(signal_name)
-            print(check_exist_index)
+            # print(check_exist_index)
             if check_exist_index == -1:
-                self.added_signals_dict[signal_name] = self.create_sinusoidal(self.magnitude, self.frequency, self.phase)
-                print(self.added_signals_dict)
+                self.added_signals_dict[signal_name] = self.create_sinusoidal(self.magnitude, self.frequency,self.phase)
+                # print(self.added_signals_dict)
                 self.ui.added_signals_box.addItem(signal_name)
             else:
                 print("Signal is already added")
@@ -135,9 +130,9 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             signal_name = self.ui.added_signals_box.currentText()
             signal_index = self.ui.added_signals_box.currentIndex()
-            print(signal_name)
+            # print(signal_name)
             del self.added_signals_dict[signal_name]
-            print(self.added_signals_dict)
+            # print(self.added_signals_dict)
             self.ui.added_signals_box.removeItem(signal_index)
         except Exception as e:
             print(e)
@@ -150,7 +145,7 @@ class MainWindow(QtWidgets.QMainWindow):
             if self.ui.added_signals_box.count() == 0:
                 self.show_initialized_graph()
             else:
-                print(self.full_signal)
+                # print(self.full_signal)
                 axes = self.sine_wave_figure.gca()
                 axes.cla()
                 axes.grid(True)
@@ -169,11 +164,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.freqslider.setSliderPosition(0)
         self.ui.magslider.setSliderPosition(1)
         self.ui.phaseslider.setSliderPosition(0)
-
-        axes = self.sine_wave_figure.gca()
-        axes.cla()
-        axes.grid(True)
-        axes.set_facecolor((1, 1, 1))
+        self.ui.added_signals_box.clear()
+        self.added_signals_dict = {}
+        self.full_signal = np.zeros(5000)
+        self.show_empty_sine_graph()
         self.sine_wave_canvas.draw()
         self.sine_wave_canvas.flush_events()
 
@@ -181,20 +175,11 @@ class MainWindow(QtWidgets.QMainWindow):
         sine_wave = mag * np.sin((2 * np.pi * freq * self.time_range / 5) + ((np.pi / 180) * phase))
         return sine_wave
 
-    def saved_signals(self):
-        self.saved_signals_dict['2sin(2)Hz + 2sin(6)Hz'] = self.create_sinusoidal(2, 2, 0) \
-                                                           + self.create_sinusoidal(2, 6, 0)
-
-        self.saved_signals_dict['2sin(5)Hz + 2sin(8)Hz'] = self.create_sinusoidal(2, 5, 0) \
-                                                           + self.create_sinusoidal(2, 8, 0)
-
-        self.saved_signals_dict['sin(1)Hz + 2sin(6)Hz'] = self.create_sinusoidal(1, 1, 0) + self.create_sinusoidal(2, 6, 0)
-
-        self.saved_signals_dict['cos(1)Hz + 2cos(8)Hz'] = self.create_sinusoidal(1, 1, 90) + self.create_sinusoidal(2, 8, 90)
-
-        self.ui.saved_signals_box.addItem("")
-        for key in self.saved_signals_dict.keys():
-            self.ui.saved_signals_box.addItem(key)
+    def show_empty_sine_graph(self):
+        self.axes = self.sine_wave_figure.gca()
+        self.axes.cla()
+        self.axes.grid(True)
+        self.axes.set_facecolor((1, 1, 1))
 
     ############################################################
     # Signal Composer
@@ -230,11 +215,31 @@ class MainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             print(e)
 
+    def saved_signals(self):
+        self.saved_signals_dict['2sin(2)Hz + 2sin(6)Hz'] = self.create_sinusoidal(2, 2, 0) \
+                                                           + self.create_sinusoidal(2, 6, 0)
+
+        self.saved_signals_dict['2sin(5)Hz + 2sin(8)Hz'] = self.create_sinusoidal(2, 5, 0) \
+                                                           + self.create_sinusoidal(2, 8, 0)
+
+        self.saved_signals_dict['sin(1)Hz + 2sin(6)Hz'] = self.create_sinusoidal(1, 1, 0) + self.create_sinusoidal(2, 6,
+                                                                                                                   0)
+
+        self.saved_signals_dict['cos(1)Hz + 2cos(8)Hz'] = self.create_sinusoidal(1, 1, 90) + self.create_sinusoidal(2,
+                                                                                                                    8,
+                                                                                                                    90)
+
+        self.ui.saved_signals_box.addItem("")
+        for key in self.saved_signals_dict.keys():
+            self.ui.saved_signals_box.addItem(key)
+
     def show_reconstructed_signal(self):
         try:
             self.flag_check()
             sample_points = signal.resample(self.second_column_used, self.sampling_slider_value)
+            # Resample x to num samples using Fourier method along the given axis
             x_new = np.linspace(min(self.first_column_used), max(self.first_column_used), self.sampling_slider_value)
+            # new x values for the sampled points
             axes = self.reconstructed_signal.gca()
             axes.cla()
             axes.grid(True)
@@ -299,15 +304,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def draw_from_saved_functions(self):
         try:
-            self.flag2 = False
+            self.composer_flag = False
             self.signal_name = self.ui.saved_signals_box.currentText()
             if self.signal_name == "":
-                self.flag = False
+                self.saved_signals_flag = False
                 self.original_signal.clear()
                 self.original_signal_canvas.draw()
                 self.original_signal_canvas.flush_events()
             else:
-                self.flag = True
+                self.saved_signals_flag = True
                 axes = self.original_signal.gca()
                 axes.cla()
                 axes.grid(True)
@@ -319,7 +324,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.original_signal_canvas.draw()
                 self.original_signal_canvas.flush_events()
                 self.calculate_max_frequency(self.time_range, self.saved_signals_dict[self.signal_name])
-            print(self.flag)
+            print(self.saved_signals_flag)
             print(self.max_frequency)
         except Exception as e:
             print(e)
@@ -353,17 +358,17 @@ class MainWindow(QtWidgets.QMainWindow):
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
             self.calculate_max_frequency(self.time_range, self.full_signal)
-            self.flag2 = True
+            self.composer_flag = True
             self.show_initialized_graph()
             self.ui.tabWidget.setCurrentIndex(0)
         except Exception as e:
             print(e)
 
     def flag_check(self):
-        if self.flag == True:
+        if self.saved_signals_flag:
             self.first_column_used = self.time_range
             self.second_column_used = self.saved_signals_dict[self.signal_name]
-        elif self.flag2 == True:
+        elif self.composer_flag:
             self.first_column_used = self.time_range
             self.second_column_used = self.full_signal
         else:
