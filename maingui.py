@@ -1593,7 +1593,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1602,9 +1602,9 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Signal Sampling and Reconstruction"))
         self.browse_button.setText(_translate("MainWindow", "Browse"))
         self.show_original_button.setText(_translate("MainWindow", "Show Original"))
-        self.show_dotted_reconstructed_button.setText(_translate("MainWindow", "show Dotted reconstructed signal"))
+        self.show_dotted_reconstructed_button.setText(_translate("MainWindow", "Show Dotted reconstructed signal"))
         self.show_hide_reconstructed_button.setText(_translate("MainWindow", "Show/Hide reconstructed"))
-        self.label_5.setText(_translate("MainWindow", "Sampling Signal Frequency"))
+        self.label_5.setText(_translate("MainWindow", "Sampling Signal Frequency: (0 ~ 3fmax)"))
         self.label_15.setText(_translate("MainWindow", "Saved Signals"))
         self.label_3.setText(_translate("MainWindow", "Original Signal "))
         self.label_2.setText(_translate("MainWindow", "Reconstructed Signal "))

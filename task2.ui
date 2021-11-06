@@ -1348,7 +1348,7 @@ ColorButton::disabled {
                    </font>
                   </property>
                   <property name="text">
-                   <string>show Dotted reconstructed signal</string>
+                   <string>Show Dotted reconstructed signal</string>
                   </property>
                  </widget>
                 </item>
@@ -1385,7 +1385,7 @@ ColorButton::disabled {
                      </font>
                     </property>
                     <property name="text">
-                     <string>Sampling Signal Frequency</string>
+                     <string>Sampling Signal Frequency: (0 ~ 3fmax)</string>
                     </property>
                    </widget>
                   </item>

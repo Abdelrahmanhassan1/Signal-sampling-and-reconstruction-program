@@ -68,7 +68,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.reconstructed_signal_canvas = FigureCanvas(self.reconstructed_signal)
         self.ui.reconstructed_signal_layout.addWidget(self.reconstructed_signal_canvas)
 
-
         self.ui.browse_button.clicked.connect(self.browse_file)
         self.ui.show_original_button.clicked.connect(self.show_original_signal)
         self.ui.show_hide_reconstructed_button.clicked.connect(self.hide_reconstructed)
