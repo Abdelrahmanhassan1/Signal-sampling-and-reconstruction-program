@@ -166,7 +166,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.phaseslider.setSliderPosition(0)
         self.ui.added_signals_box.clear()
         self.added_signals_dict = {}
-        self.full_signal = np.zeros(5000)
         self.show_empty_sine_graph()
         self.sine_wave_canvas.draw()
         self.sine_wave_canvas.flush_events()
@@ -201,6 +200,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def show_original_signal(self):
         try:
+            self.composer_flag = False
+            self.saved_signals_flag = False
             axes = self.original_signal.gca()
             axes.cla()
             axes.grid(True)
