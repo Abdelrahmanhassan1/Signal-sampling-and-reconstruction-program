@@ -1,6 +1,4 @@
 import sys
-from cmath import sqrt
-
 from PyQt5.QtWidgets import QFileDialog
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import pandas as pd
@@ -9,8 +7,6 @@ from matplotlib.figure import Figure
 from scipy import signal
 from PyQt5 import QtCore, QtGui, QtWidgets
 from maingui import Ui_MainWindow
-from scipy.signal import find_peaks
-
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
