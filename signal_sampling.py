@@ -70,8 +70,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui.browse_button.clicked.connect(self.browse_file)
         self.ui.show_original_button.clicked.connect(self.show_original_signal)
-        # self.ui.show_reconstructed_signal.clicked.connect(self.show_reconstructed_signal)
-        self.ui.show_sampling_points.clicked.connect(self.show_sampling_points)
+        self.ui.show_hide_reconstructed_button.clicked.connect(self.hide_reconstructed)
+        # self.ui.show_sampling_points.clicked.connect(self.show_sampling_points)
         self.ui.show_dotted_reconstructed_button.clicked.connect(self.show_dotted_reconstructed_signal)
         self.ui.sampling_slider.valueChanged.connect(self.sampling_slider_moved)
         self.ui.saved_signals_box.currentIndexChanged.connect(self.draw_from_saved_functions)
@@ -322,15 +322,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.set_freq_slider_range()
 
     def move_to_main_graph(self):
-        axes = self.original_signal.gca()
-        axes.cla()
-        axes.grid(True)
-        axes.set_facecolor((1, 1, 1))
-        axes.plot(self.time_range, self.full_signal)
-        self.original_signal_canvas.draw()
-        self.original_signal_canvas.flush_events()
-        self.calculate_max_frequency(self.time_range, self.full_signal)
-        self.flag2 = True
+        try:
+            axes = self.original_signal.gca()
+            axes.cla()
+            axes.grid(True)
+            axes.set_facecolor((1, 1, 1))
+            axes.plot(self.time_range, self.full_signal)
+            self.original_signal_canvas.draw()
+            self.original_signal_canvas.flush_events()
+            self.calculate_max_frequency(self.time_range, self.full_signal)
+            self.flag2 = True
+            self.show_initialized_graph()
+            self.ui.tabWidget.setCurrentIndex(0)
+        except Exception as e:
+            print(e)
 
     def flag_check(self):
         if self.flag == True:
@@ -342,6 +347,14 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.first_column_used = self.first_col
             self.second_column_used = self.second_col
+
+    def hide_reconstructed(self):
+        try:
+            self.reconstructed_signal.set_visible(not self.reconstructed_signal.get_visible())
+            self.reconstructed_signal_canvas.draw()
+            self.reconstructed_signal_canvas.flush_events()
+        except Exception as e:
+            print(e)
     # Main Window
     ############################################################
 

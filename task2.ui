@@ -106,7 +106,7 @@
          <string>Original Signal </string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>70</x>
@@ -147,20 +147,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="show_sampling_points">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>show sampling points</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QPushButton" name="show_dotted_reconstructed_button">
              <property name="font">
               <font>
@@ -174,6 +160,20 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="show_hide_reconstructed_button">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Show/Hide reconstructed</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item>
@@ -181,7 +181,7 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
               <widget class="QLabel" name="label_5">
