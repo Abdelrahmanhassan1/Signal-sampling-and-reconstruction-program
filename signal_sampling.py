@@ -68,6 +68,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.reconstructed_signal_canvas = FigureCanvas(self.reconstructed_signal)
         self.ui.reconstructed_signal_layout.addWidget(self.reconstructed_signal_canvas)
 
+
         self.ui.browse_button.clicked.connect(self.browse_file)
         self.ui.show_original_button.clicked.connect(self.show_original_signal)
         self.ui.show_hide_reconstructed_button.clicked.connect(self.hide_reconstructed)
@@ -112,6 +113,9 @@ class MainWindow(QtWidgets.QMainWindow):
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
             axes.plot(self.time_range, self.full_signal)
+            axes.set_xlabel('Time')
+            axes.set_ylabel('Magnitude')
+            axes.set_title('Sinusoidal Signal')
             self.sine_wave_canvas.draw()
             self.sine_wave_canvas.flush_events()
             self.add_signal_to_combo_box()
@@ -157,6 +161,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 axes.grid(True)
                 axes.set_facecolor((1, 1, 1))
                 axes.plot(self.time_range, self.full_signal)
+                axes.set_xlabel('Time')
+                axes.set_ylabel('Magnitude')
+                axes.set_title('Sinusoidal Signal')
                 self.sine_wave_canvas.draw()
                 self.sine_wave_canvas.flush_events()
 
@@ -186,10 +193,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.saved_signals_dict['2sin(5)Hz + 2sin(8)Hz'] = self.create_sinusoidal(2, 5, 0) \
                                                            + self.create_sinusoidal(2, 8, 0)
 
-        self.saved_signals_dict['sin(1)Hz'] = self.create_sinusoidal(1, 1, 0) \
+        self.saved_signals_dict['sin(1)Hz + 2sin(6)Hz'] = self.create_sinusoidal(1, 1, 0) + self.create_sinusoidal(2, 6, 0)
 
-
-        self.saved_signals_dict['cos(1)Hz'] = self.create_sinusoidal(1, 1, 90)
+        self.saved_signals_dict['cos(1)Hz + 2cos(8)Hz'] = self.create_sinusoidal(1, 1, 90) + self.create_sinusoidal(2, 8, 90)
 
         self.ui.saved_signals_box.addItem("")
         for key in self.saved_signals_dict.keys():
@@ -220,6 +226,10 @@ class MainWindow(QtWidgets.QMainWindow):
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
             axes.plot(self.first_col, self.second_col)
+            axes.set_xlabel('Time')
+            axes.set_ylabel('Magnitude')
+            axes.set_title('Original Signal')
+            axes.legend(['Original Signal'])
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
         except Exception as e:
@@ -235,6 +245,9 @@ class MainWindow(QtWidgets.QMainWindow):
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
             axes.plot(x_new, sample_points)
+            axes.set_xlabel('Time')
+            axes.set_ylabel('Magnitude')
+            axes.set_title('Reconstructed Signal')
             self.reconstructed_signal_canvas.draw()
             self.reconstructed_signal_canvas.flush_events()
         except Exception as e:
@@ -249,8 +262,12 @@ class MainWindow(QtWidgets.QMainWindow):
             axes.cla()
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
-            axes.plot(self.first_column_used, self.second_column_used)
-            axes.plot(x_new, sample_points, "--", c="red")
+            axes.plot(self.first_column_used, self.second_column_used, label="Original Signal")
+            axes.set_xlabel('Time')
+            axes.set_ylabel('Magnitude')
+            axes.set_title('Original Signal')
+            axes.plot(x_new, sample_points, "--", c="red", label='Dotted Reconstructed Signal')
+            axes.legend()
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
         except Exception as e:
@@ -265,8 +282,12 @@ class MainWindow(QtWidgets.QMainWindow):
             axes.cla()
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
-            axes.plot(self.first_column_used, self.second_column_used)
-            axes.scatter(x_new, sample_points, c="red")
+            axes.plot(self.first_column_used, self.second_column_used, label="Original Signal")
+            axes.scatter(x_new, sample_points, c="red", label='Sampling Points')
+            axes.set_xlabel('Time')
+            axes.set_ylabel('Magnitude')
+            axes.set_title('Original Signal')
+            axes.legend()
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
         except Exception as e:
@@ -297,6 +318,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 axes.grid(True)
                 axes.set_facecolor((1, 1, 1))
                 axes.plot(self.time_range, self.saved_signals_dict[self.signal_name])
+                axes.set_xlabel('Time')
+                axes.set_ylabel('Magnitude')
+                axes.set_title(self.signal_name)
                 self.original_signal_canvas.draw()
                 self.original_signal_canvas.flush_events()
                 self.calculate_max_frequency(self.time_range, self.saved_signals_dict[self.signal_name])
@@ -328,6 +352,9 @@ class MainWindow(QtWidgets.QMainWindow):
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
             axes.plot(self.time_range, self.full_signal)
+            axes.set_xlabel('Time')
+            axes.set_ylabel('Magnitude')
+            axes.set_title('Sinusoidal Signal')
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
             self.calculate_max_frequency(self.time_range, self.full_signal)
