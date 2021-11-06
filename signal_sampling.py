@@ -202,6 +202,7 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             self.composer_flag = False
             self.saved_signals_flag = False
+            self.clear_reconstructed_figure()
             axes = self.original_signal.gca()
             axes.cla()
             axes.grid(True)
@@ -309,9 +310,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.signal_name = self.ui.saved_signals_box.currentText()
             if self.signal_name == "":
                 self.saved_signals_flag = False
-                self.original_signal.clear()
-                self.original_signal_canvas.draw()
-                self.original_signal_canvas.flush_events()
+                self.clear_reconstructed_figure()
+                self.clear_original_figure()
             else:
                 self.saved_signals_flag = True
                 axes = self.original_signal.gca()
@@ -383,6 +383,17 @@ class MainWindow(QtWidgets.QMainWindow):
             self.reconstructed_signal_canvas.flush_events()
         except Exception as e:
             print(e)
+
+    def clear_original_figure(self):
+        self.original_signal.clear()
+        self.original_signal_canvas.draw()
+        self.original_signal_canvas.flush_events()
+
+    def clear_reconstructed_figure(self):
+        self.reconstructed_signal.clear()
+        self.reconstructed_signal_canvas.draw()
+        self.reconstructed_signal_canvas.flush_events()
+
     # Main Window
     ############################################################
 

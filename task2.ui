@@ -756,7 +756,12 @@ QAbstractSpinBox:up-button
     subcontrol-origin: border;
     subcontrol-position: top right;
 }
-
+QLabel{
+	font: 'Times New Roman';
+}
+QPushButton{
+	font: 'Times New Roman';
+}
 QAbstractSpinBox:down-button
 {
     background-color: transparent;
@@ -1281,7 +1286,7 @@ ColorButton::disabled {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -1295,8 +1300,9 @@ ColorButton::disabled {
             <property name="font">
              <font>
               <pointsize>13</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
             </property>
             <property name="text">
@@ -1315,8 +1321,9 @@ ColorButton::disabled {
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="text">
@@ -1329,8 +1336,9 @@ ColorButton::disabled {
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="text">
@@ -1343,8 +1351,9 @@ ColorButton::disabled {
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="text">
@@ -1357,8 +1366,9 @@ ColorButton::disabled {
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="text">
@@ -1379,9 +1389,10 @@ ColorButton::disabled {
                    <widget class="QLabel" name="label_5">
                     <property name="font">
                      <font>
-                      <pointsize>11</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
+                      <pointsize>12</pointsize>
+                      <weight>50</weight>
+                      <italic>false</italic>
+                      <bold>false</bold>
                      </font>
                     </property>
                     <property name="text">
@@ -1404,9 +1415,10 @@ ColorButton::disabled {
                    <widget class="QLabel" name="label_15">
                     <property name="font">
                      <font>
-                      <pointsize>13</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
+                      <pointsize>12</pointsize>
+                      <weight>50</weight>
+                      <italic>false</italic>
+                      <bold>false</bold>
                      </font>
                     </property>
                     <property name="text">
@@ -1434,9 +1446,10 @@ ColorButton::disabled {
                  <widget class="QLabel" name="label_3">
                   <property name="font">
                    <font>
-                    <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="text">
@@ -1448,9 +1461,10 @@ ColorButton::disabled {
                  <widget class="QLabel" name="label_2">
                   <property name="font">
                    <font>
-                    <pointsize>12</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <italic>false</italic>
+                    <bold>false</bold>
                    </font>
                   </property>
                   <property name="text">
@@ -1506,9 +1520,10 @@ ColorButton::disabled {
                      <widget class="QLabel" name="label_13">
                       <property name="font">
                        <font>
-                        <pointsize>13</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <pointsize>12</pointsize>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="text">
@@ -1521,8 +1536,9 @@ ColorButton::disabled {
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="text">
@@ -1549,9 +1565,10 @@ ColorButton::disabled {
                      <widget class="QLabel" name="label_12">
                       <property name="font">
                        <font>
-                        <pointsize>13</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <pointsize>12</pointsize>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="text">
@@ -1564,8 +1581,9 @@ ColorButton::disabled {
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="text">
@@ -1592,9 +1610,10 @@ ColorButton::disabled {
                      <widget class="QLabel" name="label_11">
                       <property name="font">
                        <font>
-                        <pointsize>13</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <pointsize>12</pointsize>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="text">
@@ -1607,8 +1626,9 @@ ColorButton::disabled {
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <weight>50</weight>
+                        <italic>false</italic>
+                        <bold>false</bold>
                        </font>
                       </property>
                       <property name="text">
@@ -1639,9 +1659,10 @@ ColorButton::disabled {
                   <widget class="QLabel" name="label_14">
                    <property name="font">
                     <font>
-                     <pointsize>13</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -1650,7 +1671,13 @@ ColorButton::disabled {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="added_signals_box"/>
+                  <widget class="QComboBox" name="added_signals_box">
+                   <property name="font">
+                    <font>
+                     <pointsize>9</pointsize>
+                    </font>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </widget>
@@ -1663,9 +1690,10 @@ ColorButton::disabled {
                <widget class="QPushButton" name="draw_button">
                 <property name="font">
                  <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -1677,9 +1705,10 @@ ColorButton::disabled {
                <widget class="QPushButton" name="delete_from_graph">
                 <property name="font">
                  <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -1691,9 +1720,10 @@ ColorButton::disabled {
                <widget class="QPushButton" name="move_to_main">
                 <property name="font">
                  <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -1705,9 +1735,10 @@ ColorButton::disabled {
                <widget class="QPushButton" name="reset_button">
                 <property name="font">
                  <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <pointsize>12</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -1736,7 +1767,7 @@ ColorButton::disabled {
      <x>0</x>
      <y>0</y>
      <width>1231</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
