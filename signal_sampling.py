@@ -24,8 +24,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.added_signals_dict = {}
         self.signals_summation = []
         self.full_signal = np.zeros(5000)
-        self.first_col = []
-        self.second_col = []
+        self.time_data_from_imported_file = []
+        self.amplitude_data_from_imported_file = []
         self.saved_signals_flag = False
         self.composer_flag = False
 
@@ -104,10 +104,10 @@ class MainWindow(QtWidgets.QMainWindow):
             self.sine_wave = self.create_sinusoidal(self.magnitude, self.frequency, self.phase)
             self.full_signal += self.sine_wave
             self.show_empty_sine_graph()
-            self.axes.plot(self.time_range, self.full_signal)
-            self.axes.set_xlabel('Time')
-            self.axes.set_ylabel('Magnitude')
-            self.axes.set_title('Sinusoidal Signal')
+            self.sine_wave_figure_axes.plot(self.time_range, self.full_signal)
+            self.sine_wave_figure_axes.set_xlabel('Time')
+            self.sine_wave_figure_axes.set_ylabel('Magnitude')
+            self.sine_wave_figure_axes.set_title('Sinusoidal Signal')
             self.sine_wave_canvas.draw()
             self.sine_wave_canvas.flush_events()
             self.add_signal_to_combo_box()
@@ -148,17 +148,16 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.show_initialized_graph()
             else:
                 # print(self.full_signal)
-                axes = self.sine_wave_figure.gca()
-                axes.cla()
-                axes.grid(True)
-                axes.set_facecolor((1, 1, 1))
-                axes.plot(self.time_range, self.full_signal)
-                axes.set_xlabel('Time')
-                axes.set_ylabel('Magnitude')
-                axes.set_title('Sinusoidal Signal')
+                sine_wave_figure_axes = self.sine_wave_figure.gca()
+                sine_wave_figure_axes.cla()
+                sine_wave_figure_axes.grid(True)
+                sine_wave_figure_axes.set_facecolor((1, 1, 1))
+                sine_wave_figure_axes.plot(self.time_range, self.full_signal)
+                sine_wave_figure_axes.set_xlabel('Time')
+                sine_wave_figure_axes.set_ylabel('Magnitude')
+                sine_wave_figure_axes.set_title('Sinusoidal Signal')
                 self.sine_wave_canvas.draw()
                 self.sine_wave_canvas.flush_events()
-
         except Exception as e:
             print(e)
 
@@ -177,10 +176,10 @@ class MainWindow(QtWidgets.QMainWindow):
         return sine_wave
 
     def show_empty_sine_graph(self):
-        self.axes = self.sine_wave_figure.gca()
-        self.axes.cla()
-        self.axes.grid(True)
-        self.axes.set_facecolor((1, 1, 1))
+        self.sine_wave_figure_axes = self.sine_wave_figure.gca()
+        self.sine_wave_figure_axes.cla()
+        self.sine_wave_figure_axes.grid(True)
+        self.sine_wave_figure_axes.set_facecolor((1, 1, 1))
 
     ############################################################
     # Signal Composer
@@ -191,11 +190,11 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             file_name = QFileDialog.getOpenFileName(filter="CSV (*.csv)")[0]
             data_frame = pd.read_csv(file_name)
-            self.first_col = data_frame.iloc[:, 0].values
+            self.time_data_from_imported_file = data_frame.iloc[:, 0].values
             # print(self.first_col)
-            self.second_col = data_frame.iloc[:, 1].values
+            self.amplitude_data_from_imported_file = data_frame.iloc[:, 1].values
             # print(self.second_col)
-            self.calculate_max_frequency(self.first_col, self.second_col)
+            self.calculate_max_frequency(self.time_data_from_imported_file, self.amplitude_data_from_imported_file)
             self.flag2 = False
         except Exception as e:
             print(e)
@@ -205,15 +204,15 @@ class MainWindow(QtWidgets.QMainWindow):
             self.composer_flag = False
             self.saved_signals_flag = False
             self.clear_reconstructed_figure()
-            axes = self.original_signal.gca()
-            axes.cla()
-            axes.grid(True)
-            axes.set_facecolor((1, 1, 1))
-            axes.plot(self.first_col, self.second_col)
-            axes.set_xlabel('Time')
-            axes.set_ylabel('Magnitude')
-            axes.set_title('Original Signal')
-            axes.legend(['Original Signal'])
+            main_graph_axis = self.original_signal.gca()
+            main_graph_axis.cla()
+            main_graph_axis.grid(True)
+            main_graph_axis.set_facecolor((1, 1, 1))
+            main_graph_axis.plot(self.time_data_from_imported_file, self.amplitude_data_from_imported_file)
+            main_graph_axis.set_xlabel('Time')
+            main_graph_axis.set_ylabel('Magnitude')
+            main_graph_axis.set_title('Original Signal')
+            main_graph_axis.legend(['Original Signal'])
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
         except Exception as e:
@@ -244,15 +243,15 @@ class MainWindow(QtWidgets.QMainWindow):
             # # Resample x to num samples using Fourier method along the given axis
             # x_new = np.linspace(min(self.first_column_used), max(self.first_column_used), self.sampling_slider_value)
             # # new x values for the sampled points
-            f = interpolate.interp1d(self.time_domain_sample_points, self.amplitude_values_sample_points, kind='cubic')
-            xnew = np.arange(min(self.time_domain_sample_points), max(self.time_domain_sample_points), 0.01)
-            ynew = f(xnew)
+            interpolation_function = interpolate.interp1d(self.time_domain_sample_points, self.amplitude_values_sample_points, kind='cubic')
+            time_values_interpolated = np.arange(min(self.time_domain_sample_points), max(self.time_domain_sample_points), 0.01)
+            amplitude_values_interpolated = interpolation_function(time_values_interpolated)
             axes = self.reconstructed_signal.gca()
             axes.cla()
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
             # axes.plot(self.time_domain_sample_points, self.amplitude_values_sample_points)
-            axes.plot(xnew, ynew)
+            axes.plot(time_values_interpolated, amplitude_values_interpolated)
             axes.set_xlabel('Time')
             axes.set_ylabel('Magnitude')
             axes.set_title('Reconstructed Signal')
@@ -264,18 +263,19 @@ class MainWindow(QtWidgets.QMainWindow):
     def show_dotted_reconstructed_signal(self):
         try:
             self.flag_check()
-            sample_points = signal.resample(self.second_column_used, self.sampling_slider_value)
-            x_new = np.linspace(min(self.first_column_used), max(self.first_column_used), self.sampling_slider_value)
-            axes = self.original_signal.gca()
-            axes.cla()
-            axes.grid(True)
-            axes.set_facecolor((1, 1, 1))
-            axes.plot(self.first_column_used, self.second_column_used, label="Original Signal")
-            axes.set_xlabel('Time')
-            axes.set_ylabel('Magnitude')
-            axes.set_title('Original Signal')
-            axes.plot(x_new, sample_points, "--", c="red", label='Dotted Reconstructed Signal')
-            axes.legend()
+            interpolation_function = interpolate.interp1d(self.time_domain_sample_points, self.amplitude_values_sample_points, kind='cubic')
+            time_values_interpolated = np.arange(min(self.time_domain_sample_points), max(self.time_domain_sample_points), 0.01)
+            amplitude_values_interpolated = interpolation_function(time_values_interpolated)
+            Main_graph_axis = self.original_signal.gca()
+            Main_graph_axis.cla()
+            Main_graph_axis.grid(True)
+            Main_graph_axis.set_facecolor((1, 1, 1))
+            Main_graph_axis.plot(self.time_array_values, self.amplitude_array_values, label="Original Signal")
+            Main_graph_axis.set_xlabel('Time')
+            Main_graph_axis.set_ylabel('Magnitude')
+            Main_graph_axis.set_title('Original Signal')
+            Main_graph_axis.plot(time_values_interpolated, amplitude_values_interpolated, "--", c="red", label='Dotted Reconstructed Signal')
+            Main_graph_axis.legend()
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
         except Exception as e:
@@ -284,18 +284,18 @@ class MainWindow(QtWidgets.QMainWindow):
     def show_sampling_points(self):
         try:
             self.flag_check()
-            self.amplitude_values_sample_points, self.time_domain_sample_points = signal.resample(self.second_column_used, self.sampling_slider_value, t=self.first_column_used)
-            x_new = np.linspace(min(self.first_column_used), max(self.first_column_used), self.sampling_slider_value)
-            axes = self.original_signal.gca()
-            axes.cla()
-            axes.grid(True)
-            axes.set_facecolor((1, 1, 1))
-            axes.plot(self.first_column_used, self.second_column_used, label="Original Signal")
-            axes.scatter(self.time_domain_sample_points, self.amplitude_values_sample_points, c="red", label='Sampling Points')
-            axes.set_xlabel('Time')
-            axes.set_ylabel('Magnitude')
-            axes.set_title('Original Signal')
-            axes.legend()
+            self.amplitude_values_sample_points, self.time_domain_sample_points = signal.resample(self.amplitude_array_values, self.sampling_slider_value, t=self.time_array_values)
+            # x_new = np.linspace(min(self.time_array_values), max(self.time_array_values), self.sampling_slider_value)
+            main_graph_axis = self.original_signal.gca()
+            main_graph_axis.cla()
+            main_graph_axis.grid(True)
+            main_graph_axis.set_facecolor((1, 1, 1))
+            main_graph_axis.plot(self.time_array_values, self.amplitude_array_values, label="Original Signal")
+            main_graph_axis.scatter(self.time_domain_sample_points, self.amplitude_values_sample_points, c="red", label='Sampling Points')
+            main_graph_axis.set_xlabel('Time')
+            main_graph_axis.set_ylabel('Magnitude')
+            main_graph_axis.set_title('Original Signal')
+            main_graph_axis.legend()
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
         except Exception as e:
@@ -320,19 +320,19 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.clear_original_figure()
             else:
                 self.saved_signals_flag = True
-                axes = self.original_signal.gca()
-                axes.cla()
-                axes.grid(True)
-                axes.set_facecolor((1, 1, 1))
-                axes.plot(self.time_range, self.saved_signals_dict[self.signal_name])
-                axes.set_xlabel('Time')
-                axes.set_ylabel('Magnitude')
-                axes.set_title(self.signal_name)
+                main_graph_axis = self.original_signal.gca()
+                main_graph_axis.cla()
+                main_graph_axis.grid(True)
+                main_graph_axis.set_facecolor((1, 1, 1))
+                main_graph_axis.plot(self.time_range, self.saved_signals_dict[self.signal_name])
+                main_graph_axis.set_xlabel('Time')
+                main_graph_axis.set_ylabel('Magnitude')
+                main_graph_axis.set_title(self.signal_name)
                 self.original_signal_canvas.draw()
                 self.original_signal_canvas.flush_events()
                 self.calculate_max_frequency(self.time_range, self.saved_signals_dict[self.signal_name])
-            print(self.saved_signals_flag)
-            print(self.max_frequency)
+            # print(self.saved_signals_flag)
+            # print(self.max_frequency)
         except Exception as e:
             print(e)
 
@@ -348,20 +348,20 @@ class MainWindow(QtWidgets.QMainWindow):
         mask = abs(spectrum) > threshold
         peaks = freq_range[mask]
         peaks = abs(peaks)
-        self.max_frequency = max(peaks) / time_step
+        self.max_frequency = (max(peaks) / time_step)//2.5
         print(self.max_frequency)
         self.set_freq_slider_range()
 
     def move_to_main_graph(self):
         try:
-            axes = self.original_signal.gca()
-            axes.cla()
-            axes.grid(True)
-            axes.set_facecolor((1, 1, 1))
-            axes.plot(self.time_range, self.full_signal)
-            axes.set_xlabel('Time')
-            axes.set_ylabel('Magnitude')
-            axes.set_title('Sinusoidal Signal')
+            main_graph_axis = self.original_signal.gca()
+            main_graph_axis.cla()
+            main_graph_axis.grid(True)
+            main_graph_axis.set_facecolor((1, 1, 1))
+            main_graph_axis.plot(self.time_range, self.full_signal)
+            main_graph_axis.set_xlabel('Time')
+            main_graph_axis.set_ylabel('Magnitude')
+            main_graph_axis.set_title('Sinusoidal Signal')
             self.original_signal_canvas.draw()
             self.original_signal_canvas.flush_events()
             self.calculate_max_frequency(self.time_range, self.full_signal)
@@ -373,14 +373,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def flag_check(self):
         if self.saved_signals_flag:
-            self.first_column_used = self.time_range
-            self.second_column_used = self.saved_signals_dict[self.signal_name]
+            self.time_array_values = self.time_range
+            self.amplitude_array_values = self.saved_signals_dict[self.signal_name]
         elif self.composer_flag:
-            self.first_column_used = self.time_range
-            self.second_column_used = self.full_signal
+            self.time_array_values = self.time_range
+            self.amplitude_array_values = self.full_signal
         else:
-            self.first_column_used = self.first_col
-            self.second_column_used = self.second_col
+            self.time_array_values = self.time_data_from_imported_file
+            self.amplitude_array_values = self.amplitude_data_from_imported_file
 
     def hide_reconstructed(self):
         try:
