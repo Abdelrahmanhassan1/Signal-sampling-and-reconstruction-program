@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 from matplotlib.figure import Figure
 from scipy import signal
+from scipy import fftpack
+from scipy import interpolate
 from PyQt5 import QtCore, QtGui, QtWidgets
 from maingui import Ui_MainWindow
 
@@ -238,15 +240,19 @@ class MainWindow(QtWidgets.QMainWindow):
     def show_reconstructed_signal(self):
         try:
             self.flag_check()
-            sample_points = signal.resample(self.second_column_used, self.sampling_slider_value)
-            # Resample x to num samples using Fourier method along the given axis
-            x_new = np.linspace(min(self.first_column_used), max(self.first_column_used), self.sampling_slider_value)
-            # new x values for the sampled points
+            # sample_points = signal.resample(self.second_column_used, self.sampling_slider_value, self.first_column_used)
+            # # Resample x to num samples using Fourier method along the given axis
+            # x_new = np.linspace(min(self.first_column_used), max(self.first_column_used), self.sampling_slider_value)
+            # # new x values for the sampled points
+            f = interpolate.interp1d(self.time_domain_sample_points, self.amplitude_values_sample_points, kind='cubic')
+            xnew = np.arange(min(self.time_domain_sample_points), max(self.time_domain_sample_points), 0.01)
+            ynew = f(xnew)
             axes = self.reconstructed_signal.gca()
             axes.cla()
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
-            axes.plot(x_new, sample_points)
+            # axes.plot(self.time_domain_sample_points, self.amplitude_values_sample_points)
+            axes.plot(xnew, ynew)
             axes.set_xlabel('Time')
             axes.set_ylabel('Magnitude')
             axes.set_title('Reconstructed Signal')
@@ -278,14 +284,14 @@ class MainWindow(QtWidgets.QMainWindow):
     def show_sampling_points(self):
         try:
             self.flag_check()
-            sample_points = signal.resample(self.second_column_used, self.sampling_slider_value)
+            self.amplitude_values_sample_points, self.time_domain_sample_points = signal.resample(self.second_column_used, self.sampling_slider_value, t=self.first_column_used)
             x_new = np.linspace(min(self.first_column_used), max(self.first_column_used), self.sampling_slider_value)
             axes = self.original_signal.gca()
             axes.cla()
             axes.grid(True)
             axes.set_facecolor((1, 1, 1))
             axes.plot(self.first_column_used, self.second_column_used, label="Original Signal")
-            axes.scatter(x_new, sample_points, c="red", label='Sampling Points')
+            axes.scatter(self.time_domain_sample_points, self.amplitude_values_sample_points, c="red", label='Sampling Points')
             axes.set_xlabel('Time')
             axes.set_ylabel('Magnitude')
             axes.set_title('Original Signal')
