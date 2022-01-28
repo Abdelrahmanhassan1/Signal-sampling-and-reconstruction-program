@@ -1,9 +1,3 @@
-# DSP-TASK2
-
-### Team Members:
-
->Abdelrahman <br>
->Ahmed <br>
->mnofy <br>
->Hamza <br>
+# Signal Sampling App
+Simply App that takes a signal as input and sampling it and can reconstruct the signal back from the sampling points
 
